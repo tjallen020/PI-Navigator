@@ -1,0 +1,44 @@
+[
+  {
+    "toolKey": "PDSA",
+    "pathTag": "ProblemSolving",
+    "textPlain": "Use a quick learning cycle to test the fix before rolling out.",
+    "textTech": "Execute a rapid PDSA cycle to validate the countermeasure before standardization."
+  },
+  {
+    "toolKey": "PDSA",
+    "pathTag": "ProcessImprovement",
+    "textPlain": "Try the redesigned steps safely before scaling up.",
+    "textTech": "Run a controlled PDSA cycle to confirm the future state map delivers gains."
+  },
+  {
+    "toolKey": "RunChart",
+    "pathTag": "Measurement",
+    "textPlain": "Plot the baseline data to understand normal variation.",
+    "textTech": "Visualize baseline performance and detect trends or shifts before intervention."
+  },
+  {
+    "toolKey": "RunChart",
+    "pathTag": "PDSA",
+    "textPlain": "Track if your test is moving the metric in the right direction.",
+    "textTech": "Monitor PDSA experiment impact via annotated run chart for test cycles."
+  },
+  {
+    "toolKey": "ControlChart",
+    "pathTag": "Sustainment",
+    "textPlain": "Make sure the gains hold steady after rollout.",
+    "textTech": "Establish SPC limits to sustain performance and detect special-cause signals."
+  },
+  {
+    "toolKey": "GoodCatch",
+    "pathTag": "Incident",
+    "textPlain": "Capture the near miss details to learn and celebrate.",
+    "textTech": "Document near miss data to reinforce a learning safety culture."
+  },
+  {
+    "toolKey": "5Whys",
+    "pathTag": "Incident",
+    "textPlain": "Dig into why the near miss almost happened.",
+    "textTech": "Facilitate a rapid 5-Why chain to uncover latent system conditions."
+  }
+]

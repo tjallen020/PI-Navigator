@@ -1,0 +1,62 @@
+[
+  {
+    "key": "entry.goal",
+    "question": "What's your primary goal?",
+    "pathTag": "entry",
+    "options": [
+      {"label": "Fix an immediate problem", "value": "A", "next": "A.urgency"},
+      {"label": "Improve an existing process", "value": "B", "next": "B.aspect"},
+      {"label": "Measure/track performance", "value": "C", "next": "C.measure"},
+      {"label": "Prevent future problems", "value": "D", "next": "D.prevent"},
+      {"label": "Respond to incident/event", "value": "E", "next": "E.type"}
+    ]
+  },
+  {
+    "key": "A.urgency",
+    "question": "How urgent is the issue?",
+    "pathTag": "ProblemSolving",
+    "options": [
+      {"label": "Need action today", "value": "now", "recommend": {"package": "QuickWin"}},
+      {"label": "Can test over a week", "value": "week", "recommend": {"tools": ["5Whys", "PDSA"]}}
+    ]
+  },
+  {
+    "key": "B.aspect",
+    "question": "What do you need to improve?",
+    "pathTag": "ProcessImprovement",
+    "options": [
+      {"label": "Flow or delays", "value": "flow", "recommend": {"package": "Efficiency"}},
+      {"label": "Quality or errors", "value": "quality", "recommend": {"package": "DataDriven"}},
+      {"label": "Redesign from scratch", "value": "redesign", "recommend": {"package": "ProcessRedesign"}}
+    ]
+  },
+  {
+    "key": "C.measure",
+    "question": "What do you want to measure?",
+    "pathTag": "Measurement",
+    "options": [
+      {"label": "Baseline performance", "value": "baseline", "recommend": {"tools": ["CheckSheet", "RunChart"]}},
+      {"label": "Sustain a change", "value": "sustain", "recommend": {"tools": ["RunChart", "ControlChart"]}}
+    ]
+  },
+  {
+    "key": "D.prevent",
+    "question": "What are you trying to prevent?",
+    "pathTag": "Prevention",
+    "options": [
+      {"label": "Failure points in a process", "value": "fmea", "recommend": {"package": "Safety"}},
+      {"label": "Variation from standards", "value": "variation", "recommend": {"tools": ["StandardWork", "DailyHuddle"]}}
+    ]
+  },
+  {
+    "key": "E.type",
+    "question": "What type of incident?",
+    "pathTag": "Incident",
+    "options": [
+      {"label": "Sentinel Event", "value": "sentinel", "recommend": {"package": "Safety", "extras": ["RCA2"]}},
+      {"label": "Near Miss", "value": "nearmiss", "recommend": {"tools": ["GoodCatch", "5Whys"]}},
+      {"label": "Recurring Issue", "value": "recurring", "recommend": {"tools": ["ApparentCauseAnalysis", "PDSA"]}},
+      {"label": "System Failure", "value": "system", "recommend": {"tools": ["FailureModeAnalysis", "RecoveryProtocol"]}}
+    ]
+  }
+]

@@ -1,0 +1,262 @@
+openapi: 3.0.3
+info:
+  title: QI Tool Selector API
+  version: 0.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /auth/register:
+    post:
+      summary: Register user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Created
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: OK
+  /tools:
+    get:
+      summary: List tools
+      responses:
+        '200':
+          description: OK
+  /tools/{key}:
+    get:
+      summary: Get tool by key
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /packages:
+    get:
+      summary: List packages
+      responses:
+        '200':
+          description: OK
+  /packages/{id}:
+    get:
+      summary: Get package by id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /nodes/{key}:
+    get:
+      summary: Get decision node
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /nodes/{key}/resolve:
+    post:
+      summary: Resolve recommendation
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionRequest'
+      responses:
+        '200':
+          description: OK
+  /sessions:
+    post:
+      summary: Save session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionRequest'
+      responses:
+        '201':
+          description: Created
+  /feedback:
+    post:
+      summary: Submit feedback
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '201':
+          description: Created
+  /dashboard/usage:
+    get:
+      summary: Usage analytics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /export/a3ppt:
+    post:
+      summary: Export A3 PPT
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/A3Request'
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        role:
+          type: string
+        unit:
+          type: string
+        preferences:
+          type: object
+          properties:
+            plainLanguage:
+              type: boolean
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    DecisionRequest:
+      type: object
+      required: [option]
+      properties:
+        option:
+          type: string
+        resourceLevel:
+          type: string
+        complexity:
+          type: string
+        dataAvailability:
+          type: string
+        mode:
+          type: string
+        plainLanguage:
+          type: boolean
+    SessionRequest:
+      type: object
+      required: [answersJSON, selectedMode, recommendedToolsJSON, sustainmentPlanJSON]
+      properties:
+        answersJSON:
+          type: object
+        selectedMode:
+          type: string
+        recommendedToolsJSON:
+          type: object
+        sustainmentPlanJSON:
+          type: object
+        metrics:
+          type: array
+          items:
+            type: object
+        controlPlan:
+          type: object
+    FeedbackRequest:
+      type: object
+      required: [sessionId, effectiveness1to5, recommendYN]
+      properties:
+        sessionId:
+          type: string
+        effectiveness1to5:
+          type: integer
+        timeValueNote:
+          type: string
+        recommendYN:
+          type: boolean
+        notes:
+          type: string
+    A3Request:
+      type: object
+      required: [unit, problem, owner, date, sections]
+      properties:
+        unit:
+          type: string
+        problem:
+          type: string
+        owner:
+          type: string
+        date:
+          type: string
+        sections:
+          type: object
+          properties:
+            background:
+              type: string
+            problemStatement:
+              type: string
+            currentState:
+              type: string
+            rootCause:
+              type: string
+            targetState:
+              type: string
+            countermeasures:
+              type: string
+            testResults:
+              type: string
+            sustainment:
+              type: string
+            nextSteps:
+              type: string
