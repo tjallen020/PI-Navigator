@@ -1,0 +1,264 @@
+openapi: 3.0.3
+info:
+  title: QI Tool Selector API
+  version: 0.1.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /auth/register:
+    post:
+      summary: Register a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User created
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+  /tools:
+    get:
+      summary: List tools
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /tools/{key}:
+    get:
+      summary: Get tool detail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /packages:
+    get:
+      summary: List tool packages
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+  /packages/{key}:
+    get:
+      summary: Get tool package detail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: key
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /nodes/{key}:
+    get:
+      summary: Fetch decision node
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: key
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /sessions:
+    post:
+      summary: Create or update session
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SessionRequest'
+      responses:
+        '201':
+          description: Session created
+  /export/a3ppt:
+    post:
+      summary: Export an A3 PowerPoint
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequest'
+      responses:
+        '200':
+          description: PowerPoint binary
+  /feedback:
+    post:
+      summary: Submit feedback
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedbackRequest'
+      responses:
+        '201':
+          description: Feedback saved
+  /dashboard/usage:
+    get:
+      summary: Get usage analytics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [name, email, password]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+        role:
+          type: string
+          enum: [FRONTLINE, MANAGER, FACILITATOR, ADMIN]
+        unit:
+          type: string
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    SessionRequest:
+      type: object
+      required: [mode, answers, filters]
+      properties:
+        sessionId:
+          type: string
+        mode:
+          type: string
+          enum: [FAST_TRACK, GUIDED, FACILITATOR]
+        answers:
+          type: object
+        filters:
+          type: object
+          properties:
+            resourceLevel:
+              type: string
+              enum: ['<2h', '>2h']
+            complexity:
+              type: string
+              enum: [low, high]
+            dataAvailability:
+              type: string
+              enum: [none, some, extensive]
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metric'
+        sustainmentPlan:
+          $ref: '#/components/schemas/SustainmentPlan'
+    Metric:
+      type: object
+      required: [name, type, unit, baseline, target]
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        unit:
+          type: string
+        baseline:
+          type: string
+        target:
+          type: string
+    SustainmentPlan:
+      type: object
+      required: [owner, frequency, kpis, responsePlan]
+      properties:
+        owner:
+          type: string
+        frequency:
+          type: string
+        kpis:
+          type: array
+          items:
+            type: string
+        responsePlan:
+          type: string
+    FeedbackRequest:
+      type: object
+      required: [sessionId, effectiveness, timeValueNote, recommendYN]
+      properties:
+        sessionId:
+          type: string
+        effectiveness:
+          type: integer
+          minimum: 1
+          maximum: 5
+        timeValueNote:
+          type: string
+        recommendYN:
+          type: boolean
+        notes:
+          type: string
+    ExportRequest:
+      type: object
+      required: [sessionId]
+      properties:
+        sessionId:
+          type: string
+        narrative:
+          type: object
+        meta:
+          type: object
+        charts:
+          type: array
+          items:
+            type: object
+            properties:
+              slot:
+                type: string
+                enum: [current, results]
+              imageData:
+                type: string

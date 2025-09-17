@@ -1,0 +1,136 @@
+// Prisma schema for QI Tool Selector
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  unit         String?
+  preferences  Json?
+  sessions     Session[]
+  feedback     Feedback[]
+  createdAt    DateTime @default(now())
+}
+
+enum Role {
+  FRONTLINE
+  MANAGER
+  FACILITATOR
+  ADMIN
+}
+
+model Session {
+  id                    String       @id @default(cuid())
+  user                  User         @relation(fields: [userId], references: [id])
+  userId                String
+  answersJSON           Json
+  selectedMode          Mode
+  recommendedToolsJSON  Json
+  sustainmentPlanJSON   Json
+  createdAt             DateTime     @default(now())
+  metrics               Metric[]
+  controlPlans          ControlPlan[]
+  feedback              Feedback?
+}
+
+enum Mode {
+  FAST_TRACK
+  GUIDED
+  FACILITATOR
+}
+
+model Tool {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  namePlain    String
+  nameTech     String
+  description  String
+  category     String
+  difficulty   String
+  estTime      String
+  pitfalls     String[]
+  nextToolKeys String[]
+  templates    String[]
+  rationales   Rationale[]
+}
+
+model ToolPackage {
+  id              String   @id @default(cuid())
+  name            String
+  key             String   @unique
+  toolKeys        String[]
+  description     String
+  whenBest        String
+  pitfalls        String[]
+  nextPackageKeys String[]
+}
+
+model DecisionNode {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  question     String
+  options      Json
+  nextNodeKeys String[]
+  pathTag      String?
+}
+
+model Rationale {
+  id        String @id @default(cuid())
+  tool      Tool   @relation(fields: [toolKey], references: [key])
+  toolKey   String
+  pathTag   String
+  textPlain String
+  textTech  String
+}
+
+model Feedback {
+  id              String   @id @default(cuid())
+  session         Session  @relation(fields: [sessionId], references: [id])
+  sessionId       String   @unique
+  effectiveness   Int
+  timeValueNote   String
+  recommendYN     Boolean
+  notes           String?
+  createdAt       DateTime @default(now())
+}
+
+model Metric {
+  id        String   @id @default(cuid())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  name      String
+  type      String
+  unit      String
+  baseline  String
+  target    String
+}
+
+model ControlPlan {
+  id           String   @id @default(cuid())
+  session      Session  @relation(fields: [sessionId], references: [id])
+  sessionId    String
+  owner        String
+  frequency    String
+  kpis         String[]
+  responsePlan String
+  audits       Audit[]
+}
+
+model Audit {
+  id            String      @id @default(cuid())
+  controlPlan   ControlPlan @relation(fields: [controlPlanId], references: [id])
+  controlPlanId String
+  date          DateTime
+  result        String
+  notes         String?
+}

@@ -1,0 +1,17 @@
+{
+  "name": "pi-navigator",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend",
+    "packages/prisma-client"
+  ],
+  "scripts": {
+    "postinstall": "npm run generate --workspace=apps/backend",
+    "generate": "npm run prisma:generate --workspace=apps/backend",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "build": "npm run build --workspaces"
+  }
+}
