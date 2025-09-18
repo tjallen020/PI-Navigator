@@ -1,0 +1,52 @@
+[
+  {
+    "key": "QuickWin",
+    "name": "Quick Win",
+    "description": "Rapid stabilization package for immediate problems.",
+    "whenBest": "Use when you need fast action with limited time.",
+    "pitfalls": ["Not validating change", "Skipping communication"],
+    "toolKeys": ["5Whys", "VisualMgmt", "DailyHuddle"],
+    "nextPackageIds": ["Efficiency"],
+    "extras": {"actionPlan": ["Clarify the issue", "Assign owner", "Check progress daily"]}
+  },
+  {
+    "key": "DataDriven",
+    "name": "Data-Driven",
+    "description": "Understand variation before acting.",
+    "whenBest": "Use when data quality is moderate to high.",
+    "pitfalls": ["Too much analysis"],
+    "toolKeys": ["CheckSheet", "RunChart", "ControlChart"],
+    "nextPackageIds": ["Safety"],
+    "extras": {"actionPlan": ["Define metric", "Collect baseline", "Review weekly"]}
+  },
+  {
+    "key": "ProcessRedesign",
+    "name": "Process Redesign",
+    "description": "Transform the workflow for efficiency.",
+    "whenBest": "Use when the current process is broken end-to-end.",
+    "pitfalls": ["Not engaging stakeholders", "Over-scoping"],
+    "toolKeys": ["VSM", "Spaghetti", "StandardWork"],
+    "nextPackageIds": ["Efficiency"],
+    "extras": {"actionPlan": ["Map current state", "Design future state", "Pilot with PDSA"]}
+  },
+  {
+    "key": "Safety",
+    "name": "Safety",
+    "description": "Prevent and respond to harm.",
+    "whenBest": "Use after incidents or for high-risk steps.",
+    "pitfalls": ["Too many actions", "Lack of follow-up"],
+    "toolKeys": ["FMEA", "ForcingFunction", "DailyHuddle"],
+    "nextPackageIds": [],
+    "extras": {"actionPlan": ["Review failure modes", "Implement forcing function", "Monitor daily"]}
+  },
+  {
+    "key": "Efficiency",
+    "name": "Efficiency",
+    "description": "Eliminate waste and streamline flow.",
+    "whenBest": "Use when delays and waits are the main pain point.",
+    "pitfalls": ["Not measuring impact"],
+    "toolKeys": ["WasteWalk", "5S", "VisualMgmt"],
+    "nextPackageIds": ["DataDriven"],
+    "extras": {"actionPlan": ["Do a waste walk", "Sort/organize area", "Track lead time"]}
+  }
+]
