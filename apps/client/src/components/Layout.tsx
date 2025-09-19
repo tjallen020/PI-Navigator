@@ -19,6 +19,14 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               Fast Track
             </NavLink>
             <NavLink
+              to="/decision-tree"
+              className={({ isActive }) =>
+                `rounded px-3 py-2 ${isActive ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:text-primary'}`
+              }
+            >
+              QI Pathfinding
+            </NavLink>
+            <NavLink
               to="/guided"
               className={({ isActive }) =>
                 `rounded px-3 py-2 ${isActive ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:text-primary'}`
